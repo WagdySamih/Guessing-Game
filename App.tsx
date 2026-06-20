@@ -1,22 +1,43 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, ImageBackground } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import StartGame from "./screens/StartGame";
+import Game from "./screens/Game";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { COLORS } from "./constants/colors";
+import GameOver from "./screens/GameOver";
 
 export default function App() {
+  const [input, setInput] = useState<number>();
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  const onConfirmPick = (num: number) => {
+    setInput(num);
+  };
+
+  let screen = <StartGame onConfirmPick={onConfirmPick} />;
+
+  if (input)
+    screen = <Game input={input} onGameOver={() => setIsGameOver(true)} />;
+
+  if (isGameOver && input) screen = <GameOver number={input} />;
+
   return (
-    <View style={styles.container}>
-      <Text
-        style={{
-          color: "blue",
-          backgroundColor: "yellow",
-          padding: 13,
-          borderRadius: 12,
-          fontWeight: "500",
-        }}
+    <LinearGradient
+      colors={[COLORS.white, COLORS.primary500]}
+      style={{ flex: 1 }}
+    >
+      <ImageBackground
+        source={require("./assets/background.jpg")}
+        resizeMode="cover"
+        style={{ flex: 1 }}
+        imageStyle={{ opacity: 0.1 }}
       >
-        Hello Raven from you best friend Killua
-      </Text>
-      <StatusBar style="auto" />
-    </View>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>{screen}</SafeAreaView>
+        </SafeAreaProvider>
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
