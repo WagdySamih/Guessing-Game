@@ -20,7 +20,16 @@ export default function App() {
   if (input)
     screen = <Game input={input} onGameOver={() => setIsGameOver(true)} />;
 
-  if (isGameOver && input) screen = <GameOver number={input} />;
+  if (isGameOver && input)
+    screen = (
+      <GameOver
+        number={input}
+        onGameStart={() => {
+          setIsGameOver(false);
+          setInput(undefined);
+        }}
+      />
+    );
 
   return (
     <LinearGradient

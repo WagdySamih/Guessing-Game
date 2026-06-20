@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
 type Props = {
-  text?: string;
+  text?: ReactNode;
   onPress?: () => void;
 };
 
@@ -35,6 +36,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     elevation: 2,
+    alignItems: "center",
+    borderRadius: 8,
   },
   text: {
     color: "#fff",

@@ -3,25 +3,26 @@ import { COLORS } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { generateRandomBetween } from "../utils/generateRandomBetween";
 import Button from "../components/Button";
+import { Minus, Plus } from "lucide-react-native";
 
 type Props = {
   input: number;
   onGameOver: () => void;
 };
 
-let lowerBound = 1;
-let higherBound = 100;
-
 const Game: React.FC<Props> = ({ input, onGameOver }) => {
-  const initialGuess = generateRandomBetween(lowerBound, higherBound, input);
+  const initialGuess = generateRandomBetween(1, 100, input);
+  const [lowerBound, setLowerBound] = useState(0);
+  const [upperBound, setUpperBound] = useState(100);
   const [guess, setGuess] = useState(initialGuess);
 
   useEffect(() => {
     if (guess === input) onGameOver();
-    console.log({ guess, input });
+    console.log({ guess, input, upperBound, lowerBound });
   }, [guess, input]);
 
   const onGuess = (direction: "higher" | "lower") => {
+    let newGuess;
     if (
       (direction === "higher" && input < guess) ||
       (direction == "lower" && input > guess)
@@ -30,11 +31,13 @@ const Game: React.FC<Props> = ({ input, onGameOver }) => {
       return;
     }
     if (direction === "higher") {
-      lowerBound = guess + 1;
+      setLowerBound(guess + 1);
+      newGuess = generateRandomBetween(guess + 1, upperBound, guess);
     } else {
-      higherBound = guess;
+      setUpperBound(guess);
+      newGuess = generateRandomBetween(lowerBound, guess, guess);
     }
-    const newGuess = generateRandomBetween(lowerBound, higherBound, guess);
+
     setGuess(newGuess);
   };
 
@@ -44,8 +47,14 @@ const Game: React.FC<Props> = ({ input, onGameOver }) => {
       <Text style={styles.input}>{guess}</Text>
       <Text style={styles.subText}>Higher Or Lower</Text>
       <View style={styles.buttons}>
-        <Button text="-" onPress={() => onGuess("lower")} />
-        <Button text="+" onPress={() => onGuess("higher")} />
+        <Button
+          text={<Minus color={COLORS.white} size={18} />}
+          onPress={() => onGuess("lower")}
+        />
+        <Button
+          text={<Plus color={COLORS.white} size={18} />}
+          onPress={() => onGuess("higher")}
+        />
       </View>
     </View>
   );
@@ -64,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: "center",
     color: COLORS.primary,
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: COLORS.primary,
     borderRadius: 6,
     paddingVertical: 4,
