@@ -15,11 +15,14 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [input, setInput] = useState<number>();
   const [isGameOver, setIsGameOver] = useState(false);
+  const [rounds, setRounds] = useState<number[]>([]);
 
   const [fontsLoaded] = useFonts({
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
     "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
   });
+
+  useEffect(() => setRounds([]), []);
 
   // This ensures splash screen hides ONLY when fonts are ready
   const onLayoutRootView = useCallback(async () => {
@@ -35,7 +38,14 @@ export default function App() {
   let screen = <StartGame onConfirmPick={setInput} />;
 
   if (input)
-    screen = <Game input={input} onGameOver={() => setIsGameOver(true)} />;
+    screen = (
+      <Game
+        input={input}
+        onGameOver={() => setIsGameOver(true)}
+        onNewRound={(newGuess) => setRounds((prev) => [newGuess, ...prev])}
+        rounds={rounds}
+      />
+    );
 
   if (isGameOver && input)
     screen = (
@@ -44,7 +54,9 @@ export default function App() {
         onGameStart={() => {
           setIsGameOver(false);
           setInput(undefined);
+          setRounds([]);
         }}
+        roundsCount={rounds.length}
       />
     );
 

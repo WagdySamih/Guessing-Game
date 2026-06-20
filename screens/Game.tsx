@@ -1,16 +1,18 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
-import { COLORS } from "../constants/colors";
+import { Alert, StyleSheet, Text, View, FlatList } from "react-native";
 import { useEffect, useState } from "react";
+import { Minus, Plus } from "lucide-react-native";
+import { COLORS } from "../constants/colors";
 import { generateRandomBetween } from "../utils/generateRandomBetween";
 import Button from "../components/Button";
-import { Minus, Plus } from "lucide-react-native";
 
 type Props = {
   input: number;
   onGameOver: () => void;
+  onNewRound: (guess: number) => void;
+  rounds: number[];
 };
 
-const Game: React.FC<Props> = ({ input, onGameOver }) => {
+const Game: React.FC<Props> = ({ input, onGameOver, onNewRound, rounds }) => {
   const initialGuess = generateRandomBetween(1, 100, input);
   const [lowerBound, setLowerBound] = useState(0);
   const [upperBound, setUpperBound] = useState(100);
@@ -39,6 +41,7 @@ const Game: React.FC<Props> = ({ input, onGameOver }) => {
     }
 
     setGuess(newGuess);
+    onNewRound(newGuess);
   };
 
   return (
@@ -54,6 +57,19 @@ const Game: React.FC<Props> = ({ input, onGameOver }) => {
         <Button
           text={<Plus color={COLORS.white} size={18} />}
           onPress={() => onGuess("higher")}
+        />
+      </View>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={rounds}
+          renderItem={({ item, index }) => (
+            <View style={styles.rounds}>
+              <Text style={styles.roundText}>
+                <Text style={styles.order}>#{rounds.length - index} </Text>
+                the opponent's guess is {item}
+              </Text>
+            </View>
+          )}
         />
       </View>
     </View>
@@ -96,5 +112,24 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
     gap: 14,
+  },
+  listContainer: {
+    flex: 1,
+  },
+  rounds: {
+    backgroundColor: COLORS.accent,
+    borderRadius: 8,
+    padding: 8,
+    marginVertical: 4,
+    elevation: 2,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  roundText: {
+    fontFamily: "open-sans",
+  },
+  order: {
+    color: COLORS.primary,
   },
 });

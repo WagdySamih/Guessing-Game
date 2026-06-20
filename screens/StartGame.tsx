@@ -1,4 +1,4 @@
-import { View, TextInput, StyleSheet, Alert } from "react-native";
+import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
 import { useState } from "react";
 import Button from "../components/Button";
 import { COLORS } from "../constants/colors";
@@ -32,6 +32,7 @@ const StartGame: React.FC<Props> = ({ onConfirmPick }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>Enter Your Number</Text>
       <TextInput
         style={styles.input}
         maxLength={2}
@@ -64,8 +65,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     alignItems: "center",
   },
+  label: {
+    color: COLORS.accent,
+  },
   input: {
-    height: 50,
+    height: 55,
     fontSize: 32,
     borderBottomColor: COLORS.accent,
     borderBottomWidth: 2,
