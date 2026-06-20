@@ -1,4 +1,13 @@
-import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Alert,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  useWindowDimensions,
+} from "react-native";
 import { useState } from "react";
 import Button from "../components/Button";
 import { COLORS } from "../constants/colors";
@@ -9,6 +18,8 @@ type Props = {
 
 const StartGame: React.FC<Props> = ({ onConfirmPick }) => {
   const [value, setValue] = useState("");
+  const { width, height } = useWindowDimensions();
+
   const onChange = (v: string) => {
     setValue(v || "");
   };
@@ -26,36 +37,39 @@ const StartGame: React.FC<Props> = ({ onConfirmPick }) => {
     onConfirmPick(num);
   };
 
-  const onReset = () => {
-    setValue("");
-  };
+  const onReset = () => setValue("");
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Enter Your Number</Text>
-      <TextInput
-        style={styles.input}
-        maxLength={2}
-        keyboardType="number-pad"
-        autoCapitalize="none"
-        autoCorrect={false}
-        value={value}
-        onChangeText={onChange}
-      />
+    <KeyboardAvoidingView behavior="position">
+      <View
+        style={[styles.container, { marginTop: width < height ? 100 : 30 }]}
+      >
+        <Text style={styles.label}>Enter Your Number</Text>
+        <TextInput
+          style={styles.input}
+          maxLength={2}
+          keyboardType="number-pad"
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={value}
+          onChangeText={onChange}
+        />
 
-      <View style={styles.buttons}>
-        <Button text="Reset" onPress={onReset} />
-        <Button text="Confirm" onPress={onConfirm} />
+        <View style={styles.buttons}>
+          <Button text="Reset" onPress={onReset} />
+          <Button text="Confirm" onPress={onConfirm} />
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
+const width = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    marginTop: 100,
-    marginHorizontal: 26,
+    padding: width < 320 ? 12 : 16,
+    marginHorizontal: width < 320 ? 16 : 26,
     borderRadius: 8,
     backgroundColor: COLORS.primary500,
     elevation: 4,

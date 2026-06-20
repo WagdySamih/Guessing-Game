@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { COLORS } from "../constants/colors";
 import Button from "../components/Button";
 
@@ -10,7 +17,7 @@ type Props = {
 
 const GameOver: React.FC<Props> = ({ number, onGameStart, roundsCount }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.box}>
         <Text style={styles.text}>Game Over</Text>
         <Text style={styles.text}>Your number is {number}</Text>
@@ -28,19 +35,23 @@ const GameOver: React.FC<Props> = ({ number, onGameStart, roundsCount }) => {
         rounds to guess your number{" "}
         <Text style={styles.highlight}>{number}</Text>
       </Text>
-
-      <Button text="Start New Game" onPress={onGameStart} />
-    </View>
+      <View style={{ paddingBottom: 30 }}>
+        <Button text="Start New Game" onPress={onGameStart} />
+      </View>
+    </ScrollView>
   );
 };
 
 export default GameOver;
 
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: "auto",
-    gap: 36,
+    gap: 100,
     padding: 16,
   },
   box: {
@@ -50,6 +61,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 16,
   },
   text: {
     fontSize: 30,
@@ -58,14 +70,15 @@ const styles = StyleSheet.create({
     fontFamily: "open-sans-bold",
   },
   imageContainer: {
-    width: 250,
-    height: 250,
-    borderRadius: 125,
+    width: Math.min(width, height) - 100,
+    height: Math.min(width, height) - 100,
+    borderRadius: (Math.min(width, height) - 100) / 2,
     overflow: "hidden",
     alignItems: "center",
     alignSelf: "center",
     borderWidth: 3,
     borderColor: COLORS.primary500,
+    marginBottom: 16,
   },
   image: {
     width: "100%",
@@ -73,6 +86,7 @@ const styles = StyleSheet.create({
   },
   summary: {
     fontFamily: "open-sans",
+    marginBottom: 16,
   },
   highlight: {
     color: COLORS.primary500,
