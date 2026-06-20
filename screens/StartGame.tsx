@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     width: 50,
     textAlign: "center",
+    fontFamily: "open-sans-bold",
   },
   buttons: {
     flexDirection: "row",

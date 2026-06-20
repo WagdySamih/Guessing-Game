@@ -42,5 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: COLORS.primary500,
     fontWeight: "condensed",
+    fontFamily: "open-sans-bold",
   },
 });

@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   title: {
-    fontWeight: "700",
     fontSize: 24,
     textAlign: "center",
     color: COLORS.primary,
@@ -77,6 +76,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     borderRadius: 6,
     paddingVertical: 4,
+    fontFamily: "open-sans-bold",
   },
   input: {
     fontSize: 34,
@@ -87,9 +87,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: COLORS.primary,
     padding: 14,
+    fontFamily: "open-sans",
   },
   subText: {
     textAlign: "center",
+    fontFamily: "open-sans",
   },
   buttons: {
     flexDirection: "row",
