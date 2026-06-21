@@ -9,6 +9,7 @@ import StartGame from "./screens/StartGame";
 import Game from "./screens/Game";
 import GameOver from "./screens/GameOver";
 import { COLORS } from "./constants/colors";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -61,22 +62,25 @@ export default function App() {
     );
 
   return (
-    <LinearGradient
-      colors={[COLORS.white, COLORS.primary500]}
-      style={{ flex: 1 }}
-      onLayout={onLayoutRootView}
-    >
-      <ImageBackground
-        source={require("./assets/background.jpg")}
-        resizeMode="cover"
+    <>
+      <StatusBar style="dark" />
+      <LinearGradient
+        colors={[COLORS.white, COLORS.primary500]}
         style={{ flex: 1 }}
-        imageStyle={{ opacity: 0.1 }}
+        onLayout={onLayoutRootView}
       >
-        <SafeAreaProvider>
-          <SafeAreaView style={{ flex: 1 }}>{screen}</SafeAreaView>
-        </SafeAreaProvider>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require("./assets/background.jpg")}
+          resizeMode="cover"
+          style={{ flex: 1 }}
+          imageStyle={{ opacity: 0.1 }}
+        >
+          <SafeAreaProvider>
+            <SafeAreaView style={{ flex: 1 }}>{screen}</SafeAreaView>
+          </SafeAreaProvider>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
