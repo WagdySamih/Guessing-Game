@@ -7,6 +7,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import Button from "../components/Button";
@@ -40,27 +41,29 @@ const StartGame: React.FC<Props> = ({ onConfirmPick }) => {
   const onReset = () => setValue("");
 
   return (
-    <KeyboardAvoidingView behavior="position">
-      <View
-        style={[styles.container, { marginTop: width < height ? 100 : 30 }]}
-      >
-        <Text style={styles.label}>Enter Your Number</Text>
-        <TextInput
-          style={styles.input}
-          maxLength={2}
-          keyboardType="number-pad"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={value}
-          onChangeText={onChange}
-        />
+    <ScrollView>
+      <KeyboardAvoidingView behavior="position">
+        <View
+          style={[styles.container, { marginTop: width < height ? 100 : 30 }]}
+        >
+          <Text style={styles.label}>Enter Your Number</Text>
+          <TextInput
+            style={styles.input}
+            maxLength={2}
+            keyboardType="number-pad"
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={value}
+            onChangeText={onChange}
+          />
 
-        <View style={styles.buttons}>
-          <Button text="Reset" onPress={onReset} />
-          <Button text="Confirm" onPress={onConfirm} />
+          <View style={styles.buttons}>
+            <Button text="Reset" onPress={onReset} />
+            <Button text="Confirm" onPress={onConfirm} />
+          </View>
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
